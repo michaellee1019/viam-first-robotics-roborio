@@ -57,10 +57,10 @@ class RoborioNetworkTableSensorServer(Generic):
                 #try:
                     readings = await sensor_resource.get_readings()
                     LOGGER.error("readings: ", readings)
-                    for (reading_name, reading) in readings.items():
-                        LOGGER.error("reading_name: ", reading_name)
-                        LOGGER.error("reading: ", reading)
-                        self.nt.putValue("{}-{}".format(sensor_name, reading_name), reading.value_to_primitive())
+                    # for (reading_name, reading) in readings.items():
+                    #     LOGGER.error("reading_name: ", reading_name)
+                    #     LOGGER.error("reading: ", reading)
+                    #     self.nt.putValue("{}-{}".format(sensor_name, reading_name), reading.value_to_primitive())
                 #except Exception as e:
                 #    LOGGER.error("failed to update network table: {}".format(e))
                 #    continue
@@ -94,4 +94,4 @@ class RoborioNetworkTableSensorServer(Generic):
     def __del__(self):
         LOGGER.info("Stopping nt-sensor-server...")
         self.stop_thread()
-        ntcore.NetworkTableInstance.destroy(self.nt)
+        #ntcore.NetworkTableInstance.destroy(self.nt)
