@@ -11,7 +11,7 @@ from viam.components.generic import Generic
 
 from models import RoborioNetworkTableSensorServer
 
-Registry.register_resource_creator(Generic.SUBTYPE, RoborioNetworkTableSensorServer.MODEL, ResourceCreatorRegistration(RoborioNetworkTableSensorServer.new, PrusaConnectCameraServer.validate_config))
+Registry.register_resource_creator(Generic.SUBTYPE, RoborioNetworkTableSensorServer.MODEL, ResourceCreatorRegistration(RoborioNetworkTableSensorServer.new, RoborioNetworkTableSensorServer.validate_config))
 
 async def main():
     LOGGER.info("Starting first-robotics-roborio module...")
