@@ -2,7 +2,7 @@ import json
 import requests
 import asyncio
 import time
-import ntcore
+from networktables import NetworkTables
 
 from typing import ClassVar, Mapping, Sequence
 
@@ -53,12 +53,11 @@ class RoborioNetworkTableSensorServer(Generic):
             if self.event.is_set():
                 return
             
-            network_table = self.nt.getTable("VIAM")
             for sensor_name, sensor_resource in self.sensors:
                 try:
                     readings = await sensor_resource.get_readings()
                     for reading_name, reading in readings:
-                        network_table.putValue("{}-{}".format(sensor_name, reading_name), reading.value_to_primitive())
+                        self.nt.putValue("{}-{}".format(sensor_name, reading_name), reading.value_to_primitive())
                 except Exception as e:
                     LOGGER.error("failed to update network table: {}".format(e))
                     continue
@@ -79,21 +78,13 @@ class RoborioNetworkTableSensorServer(Generic):
     def reconfigure(self,
                     config: ComponentConfig,
                     dependencies: Mapping[ResourceName, ResourceBase]):
-        self.nt = ntcore.NetworkTableInstance.getDefault()
         self.stop_thread()
 
         self.sensors = dependencies
-        # start a NT4 client
-        self.nt.startClient4("RoborioNetworkTableSensorServer")
-
-        # connect to a roboRIO with team number TEAM
-        self.nt.setServerTeam(config.attributes.fields["team_number"].string_value)
-
-        # starting a DS client will try to get the roboRIO address from the DS application
-        self.nt.startDSClient()
 
         # connect to a specific host/port
-        self.nt.setServer(config.attributes.fields["address"].string_value, ntcore.NetworkTableInstance.kDefaultPort4)
+        NetworkTables.initialize(server=config.attributes.fields["address"].string_value)
+        self.nt = NetworkTables.getTable("VIAM")
 
         self.start_thread()
 

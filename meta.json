@@ -1,6 +1,6 @@
 {
   "module_id": "michaellee1019:first-robotics-roborio",
-  "visibility": "private",
+  "visibility": "public",
   "url": "https://github.com/michaellee1019/viam-first-robotics-roborio",
   "description": "This module provides 2-way communication between viam components and the roborio using Network Tables.",
   "models": [
