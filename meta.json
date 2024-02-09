@@ -1,0 +1,18 @@
+{
+  "module_id": "michaellee1019:first-robotics-roborio",
+  "visibility": "private",
+  "url": "https://github.com/michaellee1019/viam-first-robotics-roborio",
+  "description": "This module provides 2-way communication between viam components and the roborio using Network Tables.",
+  "models": [
+    {
+      "api": "rdk:component:generic",
+      "model": "michaellee1019:roborio:nt-sensor-server"
+    }
+  ],
+  "build": {
+    "build": "sh build.sh",
+    "path": "dist/archive.tar.gz",
+    "arch" : ["linux/arm64", "linux/amd64", "darwin/arm64"]
+  },
+  "entrypoint": "dist/main"
+}
