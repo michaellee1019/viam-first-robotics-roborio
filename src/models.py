@@ -57,6 +57,7 @@ class RoborioNetworkTableSensorServer(Generic):
                 #try:
                     readings = await sensor_resource.get_readings()
                     for reading_name, reading in readings.items():
+                        LOGGER.error("reading type: ", type(reading))
                         if isinstance(reading, dict):
                             for subreading_name, subreading in reading:
                                 LOGGER.error("subreading_name: ", subreading_name)
