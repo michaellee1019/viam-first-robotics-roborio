@@ -59,7 +59,11 @@ class RoborioNetworkTableSensorServer(Generic):
                     for reading_name, reading in readings.items():
                         LOGGER.error("reading_name: ", reading_name)
                         LOGGER.error("reading: ", reading)
-                        self.nt.putValue("{}-{}".format(sensor_name, reading_name), reading)
+                        if isinstance(reading, dict):
+                            for subreading_name, subreading in reading:
+                                self.nt.putValue("{}-{}-{}".format(sensor_name, reading_name, subreading_name), subreading)
+                        else: 
+                            self.nt.putValue("{}-{}".format(sensor_name, reading_name), reading)
                 #except Exception as e:
                 #    LOGGER.error("failed to update network table: {}".format(e))
                 #    continue
