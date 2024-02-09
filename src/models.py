@@ -53,7 +53,7 @@ class RoborioNetworkTableSensorServer(Generic):
             if self.event.is_set():
                 return
             
-            for sensor_name, sensor_resource in self.sensors:
+            for (sensor_name, sensor_resource) in self.sensors:
                 try:
                     readings = await sensor_resource.get_readings()
                     for reading_name, reading in readings:
@@ -80,7 +80,7 @@ class RoborioNetworkTableSensorServer(Generic):
                     dependencies: Mapping[ResourceName, ResourceBase]):
         self.stop_thread()
 
-        self.sensors = dependencies
+        self.sensors = dependencies.items()
 
         # connect to a specific host/port
         NetworkTables.initialize(server=config.attributes.fields["address"].string_value)
