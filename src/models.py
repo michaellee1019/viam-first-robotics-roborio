@@ -14,7 +14,7 @@ from viam.resource.base import ResourceBase
 from viam.resource.types import Model
 from viam.components.generic import Generic
 from viam import logging
-from viam.utils import value_to_primitive
+from viam.utils import sensor_readings_value_to_native
 
 from threading import Thread
 from threading import Event
@@ -58,7 +58,7 @@ class RoborioNetworkTableSensorServer(Generic):
                 #try:
                     readings = await sensor_resource.get_readings()
                     for reading_name, reading in readings.items():
-                        reading_prim = value_to_primitive(reading)
+                        reading_prim = sensor_readings_value_to_native(reading)
                         LOGGER.error("reading type: ", type(reading_prim))
                         if isinstance(reading_prim, dict):
                             for subreading_name, subreading in reading_prim:
