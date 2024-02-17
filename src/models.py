@@ -2,7 +2,6 @@ import json
 import requests
 import asyncio
 import time
-from networktables import NetworkTables
 
 from typing import ClassVar, Mapping, Sequence
 
@@ -22,7 +21,7 @@ from threading import Event
 import microcontroller
 import board
 import neopixel
-from ntcore import NetworkTableInstance, NetworkTable, Event, EventFlags
+from ntcore import NetworkTable, Event, EventFlags
 
 from adafruit_led_animation.color import AMBER, AQUA, BLACK, BLUE, GREEN, ORANGE, PINK, PURPLE, RED, WHITE, YELLOW, GOLD, JADE, MAGENTA, OLD_LACE, TEAL
 from adafruit_led_animation.animation.blink import Blink
