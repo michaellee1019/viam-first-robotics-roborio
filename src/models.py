@@ -245,7 +245,7 @@ class RoborioNetworkTableLightStrip(Generic):
             raise Exception("A team_number attribute is required for nt-light-strip component. Must be a 4 digit integer")
 
         if "pin" not in config.attributes.fields:
-            raise Exception("A pin_number attribute is required for nt-light-strip component. Must be a string in the format like 'D18'")
+            raise Exception("A pin_number attribute is required for nt-light-strip component. Must be a string in the format like 'D18' and must be connected to must be 'D10', 'D12', 'D18' or 'D21'")
 
         if "num_pixels" not in config.attributes.fields:
             raise Exception("A num_pixels attribute is required for nt-light-strip component. Must be an integer")

@@ -7,12 +7,16 @@
     {
       "api": "rdk:component:generic",
       "model": "michaellee1019:roborio:nt-sensor-server"
+    },
+    {
+      "api": "rdk:component:generic",
+      "model": "michaellee1019:roborio:nt-light-strip"
     }
   ],
   "build": {
     "build": "sh build.sh",
     "path": "dist/archive.tar.gz",
-    "arch" : ["linux/arm64", "linux/amd64", "darwin/arm64"]
+    "arch" : ["linux/arm64", "linux/amd64"]
   },
   "entrypoint": "dist/main"
 }
