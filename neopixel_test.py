@@ -1,9 +1,6 @@
 import board
 import neopixel
-import ntcore
-from ntcore import NetworkTable, Event
-import board
-import neopixel
+from ntcore import NetworkTableInstance, NetworkTable, Event, EventFlags
 
 import adafruit_led_animation
 from adafruit_led_animation.color import AMBER, AQUA, BLACK, BLUE, GREEN, ORANGE, PINK, PURPLE, RED, WHITE, YELLOW, GOLD, JADE, MAGENTA, OLD_LACE, TEAL
@@ -22,11 +19,6 @@ from adafruit_led_animation.animation.rainbowsparkle import RainbowSparkle
 from adafruit_led_animation.animation.customcolorchase import CustomColorChase
 from adafruit_led_animation.animation import Animation
 
-
-# Choose an open pin connected to the Data In of the NeoPixel strip, i.e. board.D18
-# NeoPixels must be connected to D10, D12, D18 or D21 to work.
-pixel_pin = board.D18
-
 # The number of NeoPixels
 num_pixels = 30
 
@@ -34,19 +26,25 @@ num_pixels = 30
 # For RGBW NeoPixels, simply change the ORDER to RGBW or GRBW.
 ORDER = neopixel.GRB
 
+def initialize_pin(pin_name):
+    pin_object = getattr(board, pin_name, None)
+    if pin_object is None:
+        raise ValueError("Invalid pin_name: {}".format(pin_name))
+    return pin_object
+
 class nt_handler:
 
-    inst = ntcore.NetworkTableInstance.getDefault()
-    pixel_pin = board.D18
+    inst = NetworkTableInstance.getDefault()
+    pixel_pin = initialize_pin("D18")
     pixel_num = 32
     pixels = neopixel.NeoPixel(
-        pixel_pin, num_pixels, brightness=0.2, auto_write=False, pixel_order=ORDER
+        pixel_pin, num_pixels, brightness=1, auto_write=False, pixel_order=ORDER
     )
 
     speed = 0.1
     colors = [RED]
     tail_length = 1
-    bounce=False
+    bounce= False
     size = 1
     spacing = 1
     period = 1
@@ -153,9 +151,9 @@ class nt_handler:
     def connect(self):
         self.inst.startClient4("VIAM")
         self.inst.setServerTeam(1234)
-        self.inst.setServer("host", ntcore.NetworkTableInstance.kDefaultPort4)
+        # self.inst.setServer("host", NetworkTableInstance.kDefaultPort4)
         table = self.inst.getTable("VIAM")
-        table.addListener(ntcore.EventFlags.kValueAll, self.update_state)
+        table.addListener(EventFlags.kValueAll, self.update_state)
 
     def is_connected(self):
         return self.inst.isConnected()
@@ -166,7 +164,6 @@ class nt_handler:
         # print("animating")
 
     def update_state(self, new_table: NetworkTable, field_name: str, event: Event):
-        print("updating_state:", event)
         match field_name:
             case "animation":
                 self.annimation_name = event.data.value.getString()
@@ -177,6 +174,20 @@ class nt_handler:
                 for color in event.data.value.getStringArray():
                     new_colors.append(self.get_color(color))
                 self.colors = new_colors
+            case "tail_length":
+                self.tail_length = event.data.value.getInteger()
+            case "bounce":
+                self.bounce = event.data.value.getBoolean()
+            case "size":
+                self.size = event.data.value.getInteger()
+            case "spacing":
+                self.spacing = event.data.value.getInteger()
+            case "period":
+                self.period = event.data.value.getInteger()
+            case "num_sparkles":
+                self.num_sparkles = event.data.value.getInteger()
+            case "step":
+                self.step = event.data.value.getInteger()
 
         self.regenerate_animations()
 
