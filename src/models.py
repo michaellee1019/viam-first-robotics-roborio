@@ -11,7 +11,8 @@ from viam.proto.app.robot import ComponentConfig
 from viam.proto.common import ResourceName
 from viam.resource.base import ResourceBase
 from viam.resource.types import Model
-from viam.service.generic import Generic
+# TODO: Convert to generic service
+from viam.component.generic import Generic
 from viam import logging
 # from viam.utils import sensor_readings_value_to_native
 
