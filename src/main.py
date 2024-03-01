@@ -10,9 +10,12 @@ from viam.resource.registry import Registry, ResourceCreatorRegistration
 from viam.components.generic import Generic
 
 from models import RoborioNetworkTableLightStrip
+from models import RoborioNetworkTableSensorServer
 
 # Registry.register_resource_creator(Generic.SUBTYPE, RoborioNetworkTableSensorServer.MODEL, ResourceCreatorRegistration(RoborioNetworkTableSensorServer.new, RoborioNetworkTableSensorServer.validate_config))
 Registry.register_resource_creator(Generic.SUBTYPE, RoborioNetworkTableLightStrip.MODEL, ResourceCreatorRegistration(RoborioNetworkTableLightStrip.new, RoborioNetworkTableLightStrip.validate_config))
+Registry.register_resource_creator(Generic.SUBTYPE, RoborioNetworkTableSensorServer.MODEL, ResourceCreatorRegistration(RoborioNetworkTableSensorServer.new, RoborioNetworkTableSensorServer.validate_config))
+
 
 async def main():
     LOGGER.info("Starting first-robotics-roborio module...")
@@ -20,6 +23,7 @@ async def main():
 
     # module.add_model_from_registry(Generic.SUBTYPE, RoborioNetworkTableSensorServer.MODEL)
     module.add_model_from_registry(Generic.SUBTYPE, RoborioNetworkTableLightStrip.MODEL)
+    module.add_model_from_registry(Generic.SUBTYPE, RoborioNetworkTableSensorServer.MODEL)
     await module.start()
 
 if __name__ == "__main__":
